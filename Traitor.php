@@ -1,4 +1,5 @@
 <?php
+
 namespace HexMakina\Traitor;
 
 trait Traitor
