@@ -4,17 +4,19 @@ namespace HexMakina\Traitor;
 
 trait Traitor
 {
+    public $traitor_pattern = '/.+Traitor_%s$/';
+
     public function search_and_execute_trait_methods($method_name)
     {
+        $pattern = sprintf($this->traitor_pattern, $method_name);
         $errors = [];
-        $pattern = "Traitor_$method_name"; // Trait Method must be correctly formatted
-        // vd("SEARCHING FOR ***$pattern " . get_class($this));
-        foreach ((new \ReflectionClass($this))->getTraitNames() as $FQTraitName) {
-            foreach ((new \ReflectionClass($FQTraitName))->getMethods() as $method) {
-                if (preg_match("/.+$pattern$/", $method->name, $match) === 1) {
+        $traits = (new \ReflectionClass($this))->getTraitNames();
+        foreach ($traits as $trait_name) {
+            $trait_methods = (new \ReflectionClass($trait_name))->getMethods();
+            foreach ($trait_methods as $method) {
+                if (preg_match($pattern, $method->name, $match) === 1) {
                     $callable = current($match);
-                    $this->$callable(); // TODO $res = ? what to do with eventual return data? errors, messages etc..
-                    // TODO handle errors in callable..
+                    $errors ["$trait_name::".$method->name]= $this->$callable();
                 }
             }
         }
