@@ -15,7 +15,7 @@ trait Traitor
             foreach ($trait_methods as $method) {
                 if (preg_match($regex, $method->name, $match) === 1) {
                     $callable = current($match);
-                    $errors ["$trait_name::".$method->name]= $this->$callable();
+                    $errors ["$trait_name::" . $method->name] = $this->$callable();
                 }
             }
         }
