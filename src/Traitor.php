@@ -4,7 +4,6 @@ namespace HexMakina\Traitor;
 
 trait Traitor
 {
-
     public function traitor($method_name)
     {
         $ret = [];
@@ -27,12 +26,11 @@ trait Traitor
 
     public function traitorReturnIndex($trait_name, $method_name)
     {
-      return $trait_name . '::' . $method_name;
+        return $trait_name . '::' . $method_name;
     }
 
     public function traitorPattern()
     {
-      return '/.+Traitor_%s$/';
+        return '/.+Traitor_%s$/';
     }
-
 }
