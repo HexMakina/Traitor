@@ -16,17 +16,14 @@ trait Traitor
             foreach ($trait_methods as $method) {
                 if (preg_match($regex, $method->name, $match) === 1) {
                     $callable = current($match);
-                    $ret[$this->traitorReturnIndex($trait_name, $method->name)] = $this->$callable();
+                    $res = $this->$callable();
+                    if(is_array($res) && !empty($res))
+                        $ret[$trait_name . '::' . $method->name] = $res;
                 }
             }
         }
 
         return $ret;
-    }
-
-    public function traitorReturnIndex($trait_name, $method_name)
-    {
-        return $trait_name . '::' . $method_name;
     }
 
     public function traitorPattern()
